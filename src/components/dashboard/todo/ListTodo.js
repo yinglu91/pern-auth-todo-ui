@@ -2,19 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import EditTodo from './EditTodo';
 
-const ListTodos = ({ allTodos }) => {
+const ListTodos = ({ allTodos, setTodosChange }) => {
   const [todos, setTodos] = useState([]);
 
-  //delete todo function
   const deleteTodo = async (id) => {
     try {
-      const deleteTodo = await fetch(
-        `http://localhost:5000/dashboard/todos/${id}`,
-        {
-          method: 'DELETE',
-          headers: { jwt_token: localStorage.getItem('token') },
-        }
-      );
+      await fetch(`http://localhost:5000/dashboard/todos/${id}`, {
+        method: 'DELETE',
+        headers: { jwt_token: localStorage.getItem('token') },
+      });
 
       setTodos(todos.filter((todo) => todo.todo_id !== id));
     } catch (err) {
@@ -43,7 +39,7 @@ const ListTodos = ({ allTodos }) => {
               <tr key={todo.todo_id}>
                 <td>{todo.description}</td>
                 <td>
-                  <EditTodo todo={todo} />
+                  <EditTodo todo={todo} setTodosChange={setTodosChange} />
                 </td>
                 <td>
                   <button

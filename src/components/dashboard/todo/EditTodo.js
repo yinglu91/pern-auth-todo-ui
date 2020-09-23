@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditTodo = ({ todo }) => {
+const EditTodo = ({ todo, setTodosChange }) => {
   const [description, setDescription] = useState(todo.description);
 
   //edit description function
@@ -8,17 +8,18 @@ const EditTodo = ({ todo }) => {
   const updateDescription = async (e) => {
     e.preventDefault();
     try {
-      const body = { description };
-      const response = await fetch(
-        `http://localhost:5000/dashboard/todos/${todo.todo_id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('jwt_token', localStorage.getItem('token'));
 
-      window.location = '/';
+      const body = { description };
+      await fetch(`http://localhost:5000/dashboard/todos/${todo.todo_id}`, {
+        method: 'PUT',
+        headers: myHeaders,
+        body: JSON.stringify(body),
+      });
+
+      setTodosChange((prev) => !prev);
     } catch (err) {
       console.error(err.message);
     }

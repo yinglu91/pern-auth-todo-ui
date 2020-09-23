@@ -20,7 +20,6 @@ const Dashboard = ({ setAuth }) => {
   };
 
   useEffect(() => {
-    console.log('profile22');
     const getProfile = async () => {
       try {
         const res = await fetch('http://localhost:5000/dashboard/', {
@@ -51,7 +50,7 @@ const Dashboard = ({ setAuth }) => {
       </div>
 
       <NewTodo setTodosChange={setTodosChange} />
-      <TodoList allTodos={allTodos} />
+      <TodoList allTodos={allTodos} setTodosChange={setTodosChange} />
     </div>
   );
 };
