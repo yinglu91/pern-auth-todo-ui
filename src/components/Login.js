@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Login = ({ setAuth }) => {
@@ -18,18 +18,19 @@ const Login = ({ setAuth }) => {
     e.preventDefault();
     try {
       const body = { email, password };
-      const response = await fetch(
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const response = await axios.post(
         'http://localhost:5000/authentication/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        }
+        body,
+        options
       );
 
-      const data = await response.json();
+      const { data } = response;
 
       if (data.jwtToken) {
         localStorage.setItem('token', data.jwtToken);

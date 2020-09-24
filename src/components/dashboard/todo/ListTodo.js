@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 import EditTodo from './EditTodo';
 
@@ -7,10 +8,16 @@ const ListTodos = ({ allTodos, setTodosChange }) => {
 
   const deleteTodo = async (id) => {
     try {
-      await fetch(`http://localhost:5000/dashboard/todos/${id}`, {
-        method: 'DELETE',
-        headers: { jwt_token: localStorage.getItem('token') },
-      });
+      const options = {
+        headers: {
+          jwt_token: localStorage.getItem('token'),
+        },
+      };
+
+      await axios.delete(
+        `http://localhost:5000/dashboard/todos/${id}`,
+        options
+      );
 
       setTodos(todos.filter((todo) => todo.todo_id !== id));
     } catch (err) {

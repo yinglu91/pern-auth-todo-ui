@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const NewTodo = ({ setTodosChange }) => {
   const [description, setDescription] = useState('');
@@ -6,23 +7,19 @@ const NewTodo = ({ setTodosChange }) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('jwt_token', localStorage.getItem('token'));
-
       const body = { description };
-      const response = await fetch('http://localhost:5000/dashboard/todos', {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(body),
-      });
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+          jwt_token: localStorage.getItem('token'),
+        },
+      };
 
-      const data = await response.json();
-      console.log(data);
+      await axios.post('http://localhost:5000/dashboard/todos', body, options);
 
       setTodosChange((prev) => !prev);
 
-      // clean the field
+      // clean up the field
       setDescription('');
     } catch (err) {
       console.error(err.message);

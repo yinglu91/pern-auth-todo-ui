@@ -16,20 +16,21 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import Landing from './components/Landing';
+import axios from 'axios';
 
 toast.configure();
 
 function App() {
   const checkAuthenticated = async () => {
     try {
-      const res = await fetch('http://localhost:5000/authentication/verify', {
-        method: 'POST',
-        headers: { jwt_token: localStorage.token },
-      });
+      const res = await axios.post(
+        'http://localhost:5000/authentication/verify',
+        {
+          headers: { jwt_token: localStorage.token },
+        }
+      );
 
-      const parseRes = await res.json();
-
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      res.data === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
     }

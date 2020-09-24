@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const EditTodo = ({ todo, setTodosChange }) => {
   const [description, setDescription] = useState(todo.description);
@@ -8,16 +9,19 @@ const EditTodo = ({ todo, setTodosChange }) => {
   const updateDescription = async (e) => {
     e.preventDefault();
     try {
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('jwt_token', localStorage.getItem('token'));
-
       const body = { description };
-      await fetch(`http://localhost:5000/dashboard/todos/${todo.todo_id}`, {
-        method: 'PUT',
-        headers: myHeaders,
-        body: JSON.stringify(body),
-      });
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+          jwt_token: localStorage.getItem('token'),
+        },
+      };
+
+      await axios.put(
+        `http://localhost:5000/dashboard/todos/${todo.todo_id}`,
+        body,
+        options
+      );
 
       setTodosChange((prev) => !prev);
     } catch (err) {
@@ -61,7 +65,7 @@ const EditTodo = ({ todo, setTodosChange }) => {
             <div className="modal-body">
               <input
                 type="text"
-                classNameName="form-control"
+                className="form-control"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
@@ -74,7 +78,7 @@ const EditTodo = ({ todo, setTodosChange }) => {
                 data-dismiss="modal"
                 onClick={(e) => updateDescription(e)}
               >
-                Edit
+                Save Change
               </button>
               <button
                 type="button"

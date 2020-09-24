@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Register = ({ setAuth }) => {
@@ -16,27 +17,31 @@ const Register = ({ setAuth }) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
+
+    // validation...
+
     try {
       const body = { email, password, name };
-      const response = await fetch(
-        'http://localhost:5000/authentication/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      const parseRes = await response.json();
+      const options = {
+        headers: {
+          'Content-type': 'application/json',
+        },
+      };
 
-      if (parseRes.jwtToken) {
-        localStorage.setItem('token', parseRes.jwtToken);
+      const response = await axios.post(
+        'http://localhost:5000/authentication/register',
+        body,
+        options
+      );
+
+      const { data } = response;
+      if (data.jwtToken) {
+        localStorage.setItem('token', data.jwtToken);
         setAuth(true);
         toast.success('Register Successfully');
       } else {
         setAuth(false);
-        toast.error(parseRes);
+        toast.error(data);
       }
     } catch (err) {
       console.error(err.message);

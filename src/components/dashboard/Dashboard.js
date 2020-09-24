@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import NewTodo from './todo/NewTodo';
 import TodoList from './todo/ListTodo';
@@ -22,12 +23,11 @@ const Dashboard = ({ setAuth }) => {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const res = await fetch('http://localhost:5000/dashboard/', {
-          method: 'GET',
+        const respsone = await axios.get('http://localhost:5000/dashboard/', {
           headers: { jwt_token: localStorage.getItem('token') },
         });
 
-        const data = await res.json();
+        const { data } = respsone;
         // [{"user_name":"test3","todo_id":5,"description":"go to bed now"}]
 
         setName(data[0].user_name);
