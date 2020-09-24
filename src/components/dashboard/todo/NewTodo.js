@@ -8,14 +8,7 @@ const NewTodo = ({ setTodosChange }) => {
     e.preventDefault();
     try {
       const body = { description };
-      const options = {
-        headers: {
-          'Content-Type': 'application/json',
-          jwt_token: localStorage.getItem('token'),
-        },
-      };
-
-      await axios.post('http://localhost:5000/dashboard/todos', body, options);
+      await axios.post('http://localhost:5000/dashboard/todos', body);
 
       setTodosChange((prev) => !prev);
 

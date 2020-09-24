@@ -10,17 +10,10 @@ const EditTodo = ({ todo, setTodosChange }) => {
     e.preventDefault();
     try {
       const body = { description };
-      const options = {
-        headers: {
-          'Content-Type': 'application/json',
-          jwt_token: localStorage.getItem('token'),
-        },
-      };
 
       await axios.put(
         `http://localhost:5000/dashboard/todos/${todo.todo_id}`,
-        body,
-        options
+        body
       );
 
       setTodosChange((prev) => !prev);

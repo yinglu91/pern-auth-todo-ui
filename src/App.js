@@ -20,14 +20,30 @@ import axios from 'axios';
 
 toast.configure();
 
+// declare a request interceptor
+axios.interceptors.request.use(
+  (config) => {
+    // perform a task before the request is sent
+    const method = config.method.toUpperCase();
+    if (method === 'POST' || method === 'PATCH' || method === 'PUT')
+      config.headers['Content-Type'] = 'application/json;charset=utf-8';
+
+    const token = localStorage.getItem('token');
+    if (token) config.headers.jwt_token = token;
+
+    return config;
+  },
+  (error) => {
+    // handle the error
+    return Promise.reject(error);
+  }
+);
+
 function App() {
   const checkAuthenticated = async () => {
     try {
       const res = await axios.post(
-        'http://localhost:5000/authentication/verify',
-        {
-          headers: { jwt_token: localStorage.token },
-        }
+        'http://localhost:5000/authentication/verify'
       );
 
       res.data === true ? setIsAuthenticated(true) : setIsAuthenticated(false);

@@ -23,9 +23,7 @@ const Dashboard = ({ setAuth }) => {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const respsone = await axios.get('http://localhost:5000/dashboard/', {
-          headers: { jwt_token: localStorage.getItem('token') },
-        });
+        const respsone = await axios.get('http://localhost:5000/dashboard/');
 
         const { data } = respsone;
         // [{"user_name":"test3","todo_id":5,"description":"go to bed now"}]
