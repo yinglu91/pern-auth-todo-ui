@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import todoAPI from '../../api/todoAPI'
 import { toast } from 'react-toastify';
 import NewTodo from './todo/NewTodo';
 import TodoList from './todo/ListTodo';
@@ -23,7 +23,7 @@ const Dashboard = ({ setAuth }) => {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const respsone = await axios.get('http://localhost:5000/dashboard/');
+        const respsone = await todoAPI.get('/dashboard/');
 
         const { data } = respsone;
         // [{"user_name":"test3","todo_id":5,"description":"go to bed now"}]

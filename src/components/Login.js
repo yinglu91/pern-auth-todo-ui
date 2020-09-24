@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import todoAPI from '../api/todoAPI'
 import { toast } from 'react-toastify';
 
 const Login = ({ setAuth }) => {
@@ -24,8 +24,8 @@ const Login = ({ setAuth }) => {
         },
       };
 
-      const response = await axios.post(
-        'http://localhost:5000/authentication/login',
+      const response = await todoAPI.post(
+        '/authentication/login',
         body,
         options
       );

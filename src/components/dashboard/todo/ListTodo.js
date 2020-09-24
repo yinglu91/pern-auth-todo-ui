@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import todoAPI from '../../../api/todoAPI'
 
 import EditTodo from './EditTodo';
 
@@ -8,7 +8,7 @@ const ListTodos = ({ allTodos, setTodosChange }) => {
 
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/dashboard/todos/${id}`);
+      await todoAPI.delete(`/dashboard/todos/${id}`);
 
       setTodos(todos.filter((todo) => todo.todo_id !== id));
     } catch (err) {

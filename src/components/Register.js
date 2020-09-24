@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import todoAPI from '../api/todoAPI'
 import { toast } from 'react-toastify';
 
 const Register = ({ setAuth }) => {
@@ -28,11 +28,7 @@ const Register = ({ setAuth }) => {
         },
       };
 
-      const response = await axios.post(
-        'http://localhost:5000/authentication/register',
-        body,
-        options
-      );
+      const response = await todoAPI.post('/authentication/register', body, options);
 
       const { data } = response;
       if (data.jwtToken) {

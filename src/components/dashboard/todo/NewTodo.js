@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import todoAPI from '../../../api/todoAPI'
 
 const NewTodo = ({ setTodosChange }) => {
   const [description, setDescription] = useState('');
@@ -8,7 +8,7 @@ const NewTodo = ({ setTodosChange }) => {
     e.preventDefault();
     try {
       const body = { description };
-      await axios.post('http://localhost:5000/dashboard/todos', body);
+      await todoAPI.post('/dashboard/todos', body);
 
       setTodosChange((prev) => !prev);
 

@@ -16,12 +16,13 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import Landing from './components/Landing';
-import axios from 'axios';
+// import axios from 'axios';
+import todoAPI from './api/todoAPI'
 
 toast.configure();
 
 // declare a request interceptor
-axios.interceptors.request.use(
+todoAPI.interceptors.request.use(
   (config) => {
     // perform a task before the request is sent
     const method = config.method.toUpperCase();
@@ -42,11 +43,9 @@ axios.interceptors.request.use(
 function App() {
   const checkAuthenticated = async () => {
     try {
-      const res = await axios.post(
-        'http://localhost:5000/authentication/verify'
-      );
+      const response = await todoAPI.post('/authentication/verify');
 
-      res.data === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      response.data === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (err) {
       console.error(err.message);
     }

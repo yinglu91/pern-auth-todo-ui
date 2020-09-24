@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import todoAPI from '../../../api/todoAPI'
 
 const EditTodo = ({ todo, setTodosChange }) => {
   const [description, setDescription] = useState(todo.description);
@@ -11,10 +11,7 @@ const EditTodo = ({ todo, setTodosChange }) => {
     try {
       const body = { description };
 
-      await axios.put(
-        `http://localhost:5000/dashboard/todos/${todo.todo_id}`,
-        body
-      );
+      await todoAPI.put(`/dashboard/todos/${todo.todo_id}`, body);
 
       setTodosChange((prev) => !prev);
     } catch (err) {
